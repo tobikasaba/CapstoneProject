@@ -197,3 +197,23 @@ def delete_by_uuid(var_name):
             return {"message": "Person deleted"}, 200
 
     return {"message": "Person not found"}, 404
+
+
+# STEP 4
+@app.route("/person", methods=['POST'])
+def create_person():
+    # Get the JSON data from the incoming request
+    new_person = request.get_json()
+
+    # Check if the JSON data is empty or None
+    if not new_person:
+        # Return a JSON response indicating that the request data is invalid
+        # with a status code of 422 (Unprocessable Entity)
+        return {"message": "Invalid input, no data provided"}, 422
+
+    # Proceed with further processing of 'new_person', such as adding it to a database
+    # or validating its contents before saving it
+
+    # Assuming the processing is successful, return a success message with status code 200 (Created)
+    return {"message": "Person created successfully"}, 200
+
