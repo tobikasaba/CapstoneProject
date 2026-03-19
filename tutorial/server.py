@@ -165,3 +165,35 @@ def name_search():
 
 
 # PART 3
+@app.get("/count")
+def count():
+    try:
+        # Attempt to return a JSON response with the count of items in 'data'
+        # Replace {insert code to find length of data} with len(data) to get the length of the 'data' collection
+        return {"data count": len(data)}, 200
+    except NameError:
+        # If 'data' is not defined and raises a NameError
+        # Return a JSON response with a message and a 500 Internal Server Error status code
+        return {"message": "data not defined"}, 500
+
+
+@app.route("/person/<uuid:var_name>")
+def find_by_uuid(var_name):
+    # Iterate through the 'data' list to search for a person with a matching ID
+    for person in data:
+        # Check if the 'id' field of the person matches the 'var_name' parameter
+        if person["id"] == str(var_name):
+            # Return the person as a JSON response if a match is found
+            return person
+
+    # Return a JSON response with a message and a 404 Not Found status code if no matching person is found
+    return {"message": "Person not found"}, 404
+
+@app.delete("/person/<uuid:var_name>")
+def delete_by_uuid(var_name):
+    for person in data:
+        if person["id"] == str(var_name):
+            data.remove(person)
+            return {"message": "Person deleted"}, 200
+
+    return {"message": "Person not found"}, 404
