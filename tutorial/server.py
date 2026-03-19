@@ -217,3 +217,10 @@ def create_person():
     # Assuming the processing is successful, return a success message with status code 200 (Created)
     return {"message": "Person created successfully"}, 200
 
+# STEP 5
+@app.errorhandler(404)
+@app.errorhandler(500)
+def api_error(error):
+    # This function is a custom error handler for 404 Not Found errors
+    # It is triggered whenever a 404 and 500 error occurs within the Flask application
+    return {"message": "An error occurred"}, error.code
