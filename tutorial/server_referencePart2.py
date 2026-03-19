@@ -1,42 +1,7 @@
-from argparse import ArgumentError
-
 from flask import Flask, jsonify, make_response, request
-
+# from server import data
 app = Flask(__name__)
 
-
-# STEP 2
-@app.route("/")
-def home():
-    return "Hello, World!"
-
-
-@app.route("/dict")
-def python_dictionary():
-    return {"message": "Hello World 2"}
-
-
-@app.route("/jsonify")
-def use_jsonify():
-    return jsonify(message="Hello World 3")
-
-
-@app.route("/no_content")
-def no_content():
-    # return no content to the user due to 204 status code implemented
-    return {"message": "No content found"}, 204
-
-@app.route("/exp")
-def index_explicit():
-    # Create a response object with the message "Hello World"
-    resp = make_response({"message": "Hello World"})
-    # Set the status code of the response to 200
-    resp.status_code = 200
-    # Return the response object
-    return resp
-
-
-#  STEP 2
 
 data = [
     {
@@ -112,27 +77,6 @@ def get_data():
         return {"message": "Data not found"}, 404
 
 
-"""
-Personal Solution 
-
-@app.route("/name_search")
-def name_search():
-
-    try:
-        q = request.args.get("q")
-        for i in range(len(data)):
-            if q in data[i]["first_name"]:
-                return jsonify(data[i]["first_name"])
-
-        else:
-            return jsonify(message = "Person not found"), 400
-
-    except ValueError or ArgumentError:
-        resp = make_response({"message": "Person not found"})
-        resp.status_code = 404
-        return resp
-    
-"""
 @app.route("/name_search")
 def name_search():
     """Find a person in the database.
@@ -162,6 +106,3 @@ def name_search():
 
     # If no match is found, return a JSON response with a message indicating the person was not found and a 404 Not Found status code
     return {"message": "Person not found"}, 404
-
-
-# PART 3
