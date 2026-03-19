@@ -133,3 +133,42 @@ tmp/
 temp/
 *.tmp
 *.temp
+
+# Project specific
+routes-solution.py
+
+# Nose
+.noseids
+
+# Vagrant
+.vagrant/
+
+# Test reports
+unittests.xml
+
+# Database directory
+db/*
+!db/.keep
+
+# SonarQube Reports
+.scannerwork/
+.sonarlint/
+
+# Translations
+*.mo
+*.pot
+
+# Scrapy
+.scrapy/
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Spyder project settings
+.spyderproject
+
+# Rope project settings
+.ropeproject
