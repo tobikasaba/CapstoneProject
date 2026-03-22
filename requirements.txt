@@ -11,6 +11,7 @@ Werkzeug==2.3.7
 # Database
 SQLAlchemy==2.0.21
 Flask-SQLAlchemy==3.1.1
+pymongo==4.16.0
 # psycopg2-binary>=2.9.5  # Uncomment after: brew install postgresql
 
 # Environment & Security

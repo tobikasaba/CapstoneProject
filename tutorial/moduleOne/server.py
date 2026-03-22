@@ -1,5 +1,3 @@
-from argparse import ArgumentError
-
 from flask import Flask, jsonify, make_response, request
 
 app = Flask(__name__)
