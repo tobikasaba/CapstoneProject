@@ -13,24 +13,15 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 json_url = os.path.join(SITE_ROOT, "data", "songs.json")
 songs_list: list = json.load(open(json_url))
 
-# client = MongoClient()
-mongodb_service = os.environ.get('MONGODB_SERVICE')
+mongodb_service = os.environ.get('MONGODB_SERVICE', 'localhost')
 mongodb_username = os.environ.get('MONGODB_USERNAME')
 mongodb_password = os.environ.get('MONGODB_PASSWORD')
-mongodb_port = os.environ.get('MONGODB_PORT')
-
-print(f'The value of MONGODB_SERVICE is: {mongodb_service}')
-
-if mongodb_service == None:
-    app.logger.error('Missing MongoDB server in the MONGODB_SERVICE variable')
-    # abort(500, 'Missing MongoDB server in the MONGODB_SERVICE variable')
-    sys.exit(1)
+mongodb_port = os.environ.get('MONGODB_PORT', 27017)
 
 if mongodb_username and mongodb_password:
-    url = f"mongodb://{mongodb_username}:{mongodb_password}@{mongodb_service}"
+    url = f"mongodb://{mongodb_username}:{mongodb_password}@{mongodb_service}:{mongodb_port}"
 else:
-    url = f"mongodb://{mongodb_service}"
-
+    url = f"mongodb://{mongodb_service}:{mongodb_port}"
 
 print(f"connecting to url: {url}")
 

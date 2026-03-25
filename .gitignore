@@ -136,6 +136,7 @@ temp/
 
 # Project specific
 routes-solution.py
+CLAUDE.md
 
 # Nose
 .noseids
