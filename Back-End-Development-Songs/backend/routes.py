@@ -24,11 +24,26 @@ def parse_json(data):
 ######################################################################
 # INSERT CODE HERE
 ######################################################################
+
+# Register GET /health — used by cloud platforms to check if the service is running
 @app.route("/health", methods=["GET"])
 def health():
-    # return jsonify({ "status": "OK"}), 200
-    return jsonify(status= "OK"), 200
+    # Return JSON {"status": "OK"} with HTTP 200
+    return jsonify(status="OK"), 200
 
+
+# Register GET /count — returns total number of songs in the database
 @app.route("/count")
 def count():
-    return jsonify(length=db.songs.count_documents({})), 200
+    # count_documents({}) counts all documents in the collection; empty dict = no filter conditions
+    song_count = db.songs.count_documents({})
+    # Serialise result to JSON {"length": <number>} and return with HTTP 200 OK
+    return jsonify(length=song_count), 200
+
+# Register GET /song — returns all songs from MongoDB
+@app.route("/song", methods=["GET"])
+def songs():
+    # find({}) returns a cursor of all documents
+    cursor = db.songs.find({})
+    # parse_json converts each MongoDB document (including ObjectId) to serialisable JSON
+    return jsonify(songs=[parse_json(song) for song in cursor]), 200
