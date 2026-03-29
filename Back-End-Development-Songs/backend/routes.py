@@ -47,3 +47,13 @@ def songs():
     cursor = db.songs.find({})
     # parse_json converts each MongoDB document (including ObjectId) to serialisable JSON
     return jsonify(songs=[parse_json(song) for song in cursor]), 200
+
+@app.route("/song/<song_id>")
+def get_song_by_id(song_id):
+    # Look up a single song document whose numeric "id" matches the URL value.
+    song = db.songs.find_one({"id":int(song_id)})
+    # If MongoDB returned a document, convert it to JSON-safe data and send it back.
+    if song:
+        return jsonify(song=parse_json(song))
+    # If no document matched the id, return a 404 response with an error message.
+    return jsonify(message="Song with id not found"), 404
