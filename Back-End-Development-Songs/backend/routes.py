@@ -72,3 +72,18 @@ def create_song():
     db.songs.insert_one(song_data)
     # Return a success response confirming that the new song was created.
     return jsonify(message=f"song with id {song_id} created"), 201
+
+
+@app.route("/song/<int:id>", methods=["PUT"])
+def update_song(id):
+    # Read the JSON body from the request; it contains the fields to update.
+    song_data = request.get_json()
+
+    # Check whether a song with the given id already exists before updating it.
+    if db.songs.find_one({"id":id}) is not None:
+        # Update the matching MongoDB document by replacing only the provided fields.
+        db.songs.update_one({"id":id}, {"$set": song_data})
+        # Return a success response when the update operation completes.
+        return jsonify(message=f"Song with id {id} updated"), 201
+    # If no song matches the id, return a 404 response to report that.
+    return jsonify(message=f"Song with id {id} not found"), 404
