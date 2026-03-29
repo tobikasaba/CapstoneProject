@@ -57,3 +57,18 @@ def get_song_by_id(song_id):
         return jsonify(song=parse_json(song))
     # If no document matched the id, return a 404 response with an error message.
     return jsonify(message="Song with id not found"), 404
+
+@app.route("/song", methods=["POST"])
+def create_song():
+    # Read the JSON request body sent by the client and store it as a Python dict.
+    song_data = request.get_json()
+    # Extract the song id from the request body so it can be checked and reused.
+    song_id = song_data["id"]
+    # Check whether another song with the same id already exists in the collection.
+    if db.songs.find_one({"id":song_id}) is not None:
+        # If the id is already present, return a response telling the client it is a duplicate.
+        return jsonify(message=f"song with id {song_id} already present"), 302
+    # Insert the new song document into MongoDB when the id is not already used.
+    db.songs.insert_one(song_data)
+    # Return a success response confirming that the new song was created.
+    return jsonify(message=f"song with id {song_id} created"), 201
