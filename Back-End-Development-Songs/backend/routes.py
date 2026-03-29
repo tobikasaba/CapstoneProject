@@ -87,3 +87,15 @@ def update_song(id):
         return jsonify(message=f"Song with id {id} updated"), 201
     # If no song matches the id, return a 404 response to report that.
     return jsonify(message=f"Song with id {id} not found"), 404
+
+
+@app.route("/song/<int:id>", methods=["DELETE"])
+def delete_song(id):
+    # Attempt to delete the song document whose id matches the value in the URL.
+    result = db.songs.delete_one({"id": id})
+    # If MongoDB reports that zero documents were deleted, the song was not found.
+    if result.deleted_count == 0:
+        # Return a 404 response so the client knows no matching song exists.
+        return jsonify(message=f"Song not found"), 404
+    # Return a success response when the song is deleted successfully.
+    return jsonify(message=f"Song with id {id} deleted"), 204
