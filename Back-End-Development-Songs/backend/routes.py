@@ -84,7 +84,7 @@ def update_song(id):
         # Update the matching MongoDB document by replacing only the provided fields.
         db.songs.update_one({"id":id}, {"$set": song_data})
         # Return a success response when the update operation completes.
-        return jsonify(message=f"Song with id {id} updated"), 201
+        return jsonify(message=f"Song with id {id} updated"), 200
     # If no song matches the id, return a 404 response to report that.
     return jsonify(message=f"Song with id {id} not found"), 404
 
@@ -98,4 +98,4 @@ def delete_song(id):
         # Return a 404 response so the client knows no matching song exists.
         return jsonify(message=f"Song not found"), 404
     # Return a success response when the song is deleted successfully.
-    return jsonify(message=f"Song with id {id} deleted"), 204
+    return "", 204

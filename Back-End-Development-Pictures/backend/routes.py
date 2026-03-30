@@ -91,7 +91,7 @@ def create_picture():
         # Compare the new picture's ID with the current picture's ID
         if new_pic["id"] == pic["id"]:
             # Return a 302 Found if a picture with this ID already exists
-            return {"Message": f"picture with id {new_pic['id']} already present"}, 302
+            return {"message": f"picture with id {new_pic['id']} already present"}, 302
 
     # Add the new picture to the data list
     data.append(new_pic)
@@ -137,6 +137,6 @@ def delete_picture(id):
             # Remove the picture from the data list
             data.remove(pic)
             # Return a success message with a 204 No Content status
-            return {"message": "Picture deleted"}, 204
+            return "", 204
     # Return a 404 Not Found if no picture with the given ID exists
     return {"message": "Picture not found"}, 404
