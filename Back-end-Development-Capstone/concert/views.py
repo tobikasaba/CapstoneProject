@@ -14,23 +14,60 @@ import requests as req
 # Create your views here.
 
 def signup(request):
-    pass
+    if request.method == "POST":
+        user_name = request.POST.get("username")
+        user_pwd = request.POST.get("password")
+
+        try:
+            user = User.objects.filter(username=user_name).first()
+            if user:
+                return render(request, "signup.html", {"form": SignUpForm(),
+                                                       "message": "Username already exists"})
+            else:
+                user = User.objects.create(username=user_name, password=make_password(user_pwd))
+                login(request, user)
+                return HttpResponseRedirect(reverse("index"))
+
+        except User.DoesNotExist:
+            return render(request, "signup.html", {"form": SignUpForm()})
+
+    return render(request, "signup.html", {"form": SignUpForm()})
 
 
 def index(request):
     return render(request, "index.html")
 
 
-def songs(request):
-    # songs = {"songs":[]}
-    # return render(request, "songs.html", {"songs": [insert list here]})
-    pass
 
+
+# Define a view function named 'songs' that takes an HTTP request object as its parameter
+def songs(request):
+    # Create a dictionary with a single key "songs" that contains a list of song dictionaries
+    songs = {"songs":[
+        {
+            "id":1,
+            "title":"duis faucibus accumsan odio curabitur convallis",
+            # The lyrics field uses parentheses for implicit string concatenation across multiple lines (no + operator needed)
+            "lyrics":("Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. " 
+                      "Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis."
+                      )
+        }
+    ]}
+    # Call render() with: the request object, template path, and context dictionary
+    # - note that songs["songs"] extracts the list from the outer dictionary before passing it to the template
+    return render(request, "songs.html", {"songs":songs["songs"]})
 
 def photos(request):
-    # photos = []
-    # return render(request, "photos.html", {"photos": photos})
-    pass
+    photos = [{
+    "id": 1,
+    "pic_url": "http://dummyimage.com/136x100.png/5fa2dd/ffffff",
+    "event_country": "United States",
+    "event_state": "District of Columbia",
+    "event_city": "Washington",
+    "event_date": "11/16/2022"
+}]
+
+    return render(request, "photos.html", {"photos": photos})
 
 def login_view(request):
     pass
