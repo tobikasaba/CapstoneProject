@@ -70,13 +70,37 @@ def photos(request):
     return render(request, "photos.html", {"photos": photos})
 
 def login_view(request):
-    pass
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        try:
+                user=User.objects.filter(username=username).first()
+                if user and user.check_password(password):
+                    login(request, user)
+                    return HttpResponseRedirect(reverse("index"))
+        except User.DoesNotExist:
+            return render (request, "login.html", {"form": LoginForm(), "message": "Invalid Credentials"})
+    return render(request, "login.html", {"form": LoginForm()})
 
 def logout_view(request):
-    pass
+    logout(request)
+    return HttpResponseRedirect(reverse("login"))
 
 def concerts(request):
-    pass
+    user = request.user
+    if user.is_authenticated:
+        list_of_concerts = []
+        concert_objects = Concert.objects.all()
+        for concert in concert_objects:
+            try:
+                status = concert.attendee.filter(user=user.first().attending)
+            except:
+                status = "-"
+            list_of_concerts.append({"concert_details": concert, "status": status})
+        return render(request, "concerts.html", {"concerts": list_of_concerts})
+    else:
+        return HttpResponseRedirect(reverse("login"))
+
 
 
 def concert_detail(request, id):
@@ -86,7 +110,9 @@ def concert_detail(request, id):
             status = obj.attendee.filter(user=request.user).first().attending
         except:
             status = "-"
-        return render(request, "concert_detail.html", {"concert_details": obj, "status": status, "attending_choices": ConcertAttending.AttendingChoices.choices})
+        return render(request, "concert_detail.html", {
+            "concert_details": obj, "status": status, "attending_choices": ConcertAttending.AttendingChoices.choices
+        })
     else:
         return HttpResponseRedirect(reverse("login"))
     pass

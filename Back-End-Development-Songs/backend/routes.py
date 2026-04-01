@@ -96,6 +96,6 @@ def delete_song(id):
     # If MongoDB reports that zero documents were deleted, the song was not found.
     if result.deleted_count == 0:
         # Return a 404 response so the client knows no matching song exists.
-        return jsonify(message=f"Song not found"), 404
+        return jsonify(message="Song not found"), 404
     # Return a success response when the song is deleted successfully.
     return "", 204
