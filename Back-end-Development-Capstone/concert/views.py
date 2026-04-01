@@ -47,6 +47,7 @@ def signup(request):
         # `User.objects.create(...)` can also create a row, but `create_user(...)`
         # is the correct auth helper because it hashes the password properly and
         # applies Django's standard user-creation behavior automatically.
+        # althouhh, useing password=make_password(user_pwd) does hash's the password
         user = User.objects.create_user(username=user_name, password=user_pwd)
         # Log the new user in immediately after successful account creation.
         login(request, user)
