@@ -38,6 +38,7 @@ coverage==7.3.2
 
 # Utilities
 httpie==3.2.2
+requests==2.32.5
 
 # Django
 Django==4.2.7

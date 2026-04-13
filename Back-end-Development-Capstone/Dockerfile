@@ -1,7 +1,7 @@
 #FROM python:3.10-slim
 
-ENV PYTHONBUFFERED 1
-ENV PYTHONWRITEBYTECODE 1
+ENV PYTHONBUFFERED=1
+ENV PYTHONWRITEBYTECODE=1
 
 RUN apt-get update \
     && apt-get install -y netcat
@@ -23,4 +23,3 @@ RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/bin/bash","/app/entrypoint.sh"]
 
 # 7. insert code to set the run command to "python manage.py runserver 0.0.0.0:8000"
-

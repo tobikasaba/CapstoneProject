@@ -15,7 +15,7 @@ USER 1001
 
 COPY . /opt/app-root/src
 ENV FLASK_APP=app
-ENV PORT 3000
+ENV PORT=3000
 
 EXPOSE 3000
 
