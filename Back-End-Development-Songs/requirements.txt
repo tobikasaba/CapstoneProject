@@ -12,12 +12,12 @@ Werkzeug==2.3.7
 SQLAlchemy==2.0.21
 Flask-SQLAlchemy==3.1.1
 pymongo==4.16.0
-# psycopg2-binary>=2.9.5  # Uncomment after: brew install postgresql
+# psycopg2-binary==2.9.11  # Optional: only needed if this service uses PostgreSQL
 
 # Environment & Security
 python-dotenv==1.0.0
-Flask-Talisman
-Flask-CORS
+Flask-Talisman==1.1.0
+Flask-CORS==6.0.2
 
 # Runtime
 gunicorn==21.2.0
