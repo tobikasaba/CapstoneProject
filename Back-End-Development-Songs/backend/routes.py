@@ -12,7 +12,8 @@ SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
 json_url = os.path.join(SITE_ROOT, "data", "songs.json")
 songs_list: list = json.load(open(json_url))
 
-client = MongoClient()
+client = MongoClient(os.environ.get("MONGODB_URI", "mongodb://localhost:27017"))
+
 
 db = client.songs
 db.songs.drop()
